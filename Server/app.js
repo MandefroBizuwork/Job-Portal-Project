@@ -16,10 +16,10 @@ app.listen(2000, (err) => {
 });
 
 const connection = mysql.createConnection({
-  host: "localhost", // or 127.0.0.1
-  user: "feb24",
-  password: "feb24",
-  database: "feb24",
+  host: process.env.DB_HOST, // or 127.0.0.1
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database:  process.env.DB_DATABASE,
 });
 
 connection.connect(function(err) {
