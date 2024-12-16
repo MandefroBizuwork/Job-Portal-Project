@@ -1,0 +1,25 @@
+#an {
+
+    height: 100px;
+    background: red;
+    position: relative;
+    animation-name: example;
+    animation-duration: 3s ;
+  
+    animation-fill-mode: both;
+  }
+  
+  @keyframes example {
+    from {width: 0px; background-color: yellow;}
+    to {width: 200px; background-color: blue;}
+  }
+
+  
+@media (min-width:700px){
+
+
+  .plus_icon{
+
+ display: none !important;
+  }
+}

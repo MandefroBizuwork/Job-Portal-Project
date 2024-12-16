@@ -1,7 +1,14 @@
 .Logincard-body {
   margin-left: auto !important;
   margin-right: auto !important;
+  width: 100%;
  
 }
+.login-bg{
 
+background-repeat: no-repeat;
+  background-color: #f8f8f8;
+  background-size: cover;
+  
+}
 

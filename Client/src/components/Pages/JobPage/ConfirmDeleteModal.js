@@ -1,13 +1,13 @@
 
-    import React from "react";
-    import { Modal, Button } from "react-bootstrap";
+import React from "react";
+import { Modal, Button } from "react-bootstrap";
 
 const ConfirmDeleteModal = ({ isOpen, onConfirm, onCancel }) => {
   if (!isOpen) return null;
 
   return (
     <>
-      <Modal show={isOpen} onHide={onCancel}>
+      <Modal show={isOpen} onHide={onCancel} className="modal-top">
             <Modal.Header closeButton>
               <Modal.Title>
               <h4>Confirm Deletion</h4>

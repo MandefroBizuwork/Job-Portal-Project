@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import './register.css'
+import "./register.css";
+import { Link } from "react-router-dom";
 
 function Register() {
   const [values, setValues] = useState({
@@ -7,13 +8,11 @@ function Register() {
     Lname: "",
     Email: "",
     Password: "",
-    
   });
 
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [error, setError] = useState({});
-
 
   // Handle form input changes
   const handleChange = (e) => {
@@ -35,7 +34,7 @@ function Register() {
     if (!values.Password.trim()) {
       errors.Password = "Password is required.";
     }
-   
+
     return errors;
   };
 
@@ -77,16 +76,19 @@ function Register() {
   };
 
   return (
-    <div className="container-fluid bg-light ">
+    <div className="container-fluid login-bg ">
       <div className="container ">
-        <div className="card shadow ">
+        <div className="card shadow " data-aos="fade-right">
           <div className="card-header">
             <h3 className="text-center">
               <strong>Sign up here</strong>
             </h3>
           </div>
           <div className="Logincard-body py-5">
-            <form onSubmit={handleSubmit} className="row col-md-6 Logincard-body  align-self-center">
+            <form
+              onSubmit={handleSubmit}
+              className="row col-md-6 Logincard-body  align-self-center"
+            >
               <div>
                 <label>
                   First name<span style={{ color: "red" }}>*</span>:
@@ -105,7 +107,7 @@ function Register() {
                   Last name<span style={{ color: "red" }}>*</span>:
                 </label>
                 <input
-                 className="form-control form-control-lg"
+                  className="form-control form-control-lg"
                   type="text"
                   name="Lname"
                   onChange={handleChange}
@@ -129,7 +131,7 @@ function Register() {
                   Password<span style={{ color: "red" }}>*</span>:
                 </label>
                 <input
-                 className="form-control form-control-lg"
+                  className="form-control form-control-lg"
                   type="password"
                   name="Password"
                   onChange={handleChange}
@@ -141,13 +143,24 @@ function Register() {
 
               <div className="mt-4">
                 <button
-                 className=" btn-primary form-control form-control-lg"
+                  className=" btn-primary form-control form-control-lg"
                   type="submit"
-                 
-                >Register</button>
+                >
+                  Register
+                </button>
+              </div>
+
+              <div className="mt-3">
+                <hr />
+                <div className=" d-flex gap-3">
+                  <span>Already have an account?</span>
+                  <Link style={{textDecoration:"underline"}}  to="/login">
+                    Sign in
+                  </Link>
+                </div>
               </div>
             </form>
-            {message&& <p style={{color:errors? "red":"green"}}></p>}
+            {message && <p style={{ color: errors ? "red" : "green" }}></p>}
           </div>
         </div>
       </div>
