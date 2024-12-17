@@ -1,76 +1,115 @@
-import React from 'react'
+import React from "react";
 import { Link } from "react-router-dom";
+import Profile from "../../../images/profile.jpg";
+import "./Header.css"
+import $ from "jquery";
 function Sidebar() {
+
+  function DropDawnToggle() {
+    $("#DropItems").slideToggle();
+   
+  }
   return (
     <div>
-        <div 
-        className="d-flex flex-column flex-shrink-0 bg-dark text-bg-dark p-3"
+      <div
+        className="d-flex flex-column flex-shrink-0 bg-dark text-bg-dark "
         style={{
           width: "280px",
           height: "100%",
           overflow: "auto",
           position: "fixed",
           zIndex: "2",
-          top: "0"
+          top: "0",
         }}
       >
-        <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-          <span className="fs-4">Sidebar</span>
-        </a>
-        <hr style={{ color: "white" }} />
-        <ul className="nav nav-pills flex-column mb-auto">
-          <li>
-            <a href="#" className="nav-link active text-white">
+     
+        <ul className="nav nav-pills flex-column  adminMenu ">
+          <li className="pb-5  " style={{backgroundColor:"#0f100e"}}>
+           
+
+            <div class="dropdown profile-element mx-1 mt-5" >
+              <div style={{display:"flex" ,flexDirection:"column",gap:"3",alignItems:"center"}}>
+
+             
+            <img
+                src={Profile}
+                alt="image"
+                style={{width: "90px", height: "90px",borderRadius: "50%"}}
+                
+              />
+              
+              <a data-toggle="dropdown" className="dropdown-toggle " href="#" onClick={DropDawnToggle} >
+                <span class="block m-t-xs font-bold">Mandefro Bizuwork</span><br/>
+                <span class="text-muted text-xs block">
+                  Profile 
+                </span>
+                
+              </a>
+              </div>
+              <ul className="dropdown-menu animated fadeInRight m-t-xs" id="DropItems">
+                <li>
+                  <a class="dropdown-item" href="/update_client_profile/3144">
+                    Profile
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/change-password/">
+                    Change Password
+                  </a>
+                </li>
+               
+                <li class="dropdown-divider"></li>
+                <li>
+                  <a class="dropdown-item" href="../Logout">
+                    Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+
+       
+         
+          </ul>
+        
+          <ul className="nav nav-pills flex-column mb-auto adminMenu mx-1 ">
+          <hr />
+          <li className="">
+            <a href="#" className="nav-link  text-white">
               Dashboard
             </a>
           </li>
-          <li>
+          <hr />
+          <li className="">
             <Link to="/dashboard/profile" className="nav-link  text-white">
               Profile
             </Link>
           </li>
-          <li>
+          <hr />
+          <li className="">
             <Link to="/dashboard/jobs" className="nav-link  text-white">
               Jobs
             </Link>
           </li>
-          <li>
+          <hr />
+          <li className="">
             <a href="#" className="nav-link text-white">
               Manage Jobs
             </a>
           </li>
-          <li>
+           <hr />
+          <li className="">
             <a href="#" className="nav-link text-white">
               Products
             </a>
           </li>
-          <li>
-            <a href="#" className="nav-link text-white">
-              Customers
-            </a>
-          </li>
+           <hr />
         </ul>
-        <hr />
-        <div className="dropdown">
-          <a
-            href="#"
-            className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <strong>mdo</strong>
-          </a>
-          <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
-            <li><a className="dropdown-item" href="#">New project...</a></li>
-            <li><a className="dropdown-item" href="#">Settings</a></li>
-            <li><a className="dropdown-item" href="#">Profile</a></li>
-            <li><hr className="dropdown-divider" /></li>
-            <li><a className="dropdown-item" href="#">Sign out</a></li>
-          </ul>
-        </div>
+        
+       
       </div>
     </div>
-  )
+  );
 }
 
-export default Sidebar
+export default Sidebar;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import ConfirmDeleteModal from "../Pages/JobPage/ConfirmDeleteModal";
 
 const Documents = () => {
   const [file, setFile] = useState(null);
@@ -87,7 +88,7 @@ const Documents = () => {
       console.error("Error downloading file:", err);
     }
   };
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     try {
       const response = await fetch(`http://localhost:2000/documents/delete/${id}`, {
         method: "DELETE", // Proper HTTP method
@@ -100,7 +101,7 @@ const Documents = () => {
       if (response.ok) {
         const data = await response.json(); // Parse the JSON response
         setMessage(data.message || "Document deleted successfully");
-  
+        setOpenmodal(false)
         // Remove the deleted document from state
        // setDocuments((prevDocuments) => prevDocuments.filter((doc) => doc.id !== id)     );
         const updatedResponse = await fetch("http://localhost:2000/documents");
@@ -113,7 +114,18 @@ const Documents = () => {
       console.error("Error deleting document:", err.message);
     }
   };
+
   
+  const[isOpen,setOpenmodal]=useState(false)
+  const[id,setSelectedId]=useState(null)
+  const onOpenmodal=(id)=>{
+    setOpenmodal(true)
+    setSelectedId(id)
+  }
+  const closeModal=()=>{
+    setOpenmodal(false)
+  
+  }
   return (
     <div className="container-fluid login-bg">
       <div className="container">
@@ -173,7 +185,7 @@ const Documents = () => {
                       Download
                     </button>
                  
-                    <button onClick={() =>handleDelete(item.id)} className="btn btn-danger">Delete</button>
+                    <button onClick={()=>onOpenmodal(item.id)} className="btn btn-danger">Delete</button>
                   </td>
                 </tr>
               ))
@@ -186,6 +198,11 @@ const Documents = () => {
             )}
           </tbody>
         </table>
+        <ConfirmDeleteModal
+        onConfirm={handleDelete}
+        isOpen={isOpen}
+        onCancel={closeModal}
+        />
       </div>
     </div>
   );

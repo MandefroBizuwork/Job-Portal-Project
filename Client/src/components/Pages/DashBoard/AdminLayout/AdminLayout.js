@@ -1,15 +1,18 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Sidebar from "../Sidebar";
-import AdminHeader from "../AdminHeader";
+import React from 'react'
+import AdminHeader from '../AdminHeader'
+import AdminFooter from '../AdminFooter'
+import Sidebar from '../Sidebar'
+import { Outlet } from 'react-router-dom' 
 
-function AdminLayout() {
+const AdminLayout = () => {
   return (
-    <>
-     <Sidebar/>
+    <div>
+        <Sidebar/>
+   <AdminHeader/>
       <Outlet/>
-     <AdminHeader/>
-    </>
-  );
+<AdminFooter/>
+    </div>
+  )
 }
-export default AdminLayout;
+
+export default AdminLayout

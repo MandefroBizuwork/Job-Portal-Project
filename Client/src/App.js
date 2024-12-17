@@ -22,7 +22,7 @@ import 'aos/dist/aos.css'; // AOS Styles
 import AOS from 'aos'; // AOS JavaScript
 import { useEffect } from "react";
 import Documents from "./components/Documents/Documents";
-import DashRout from "./components/Pages/DashBoard/Jobs";
+
 import Profile from "./components/Pages/DashBoard/Profile";
 import AdminLayout from "./components/Pages/DashBoard/AdminLayout/AdminLayout";
 import Jobs from "./components/Pages/DashBoard/Jobs";

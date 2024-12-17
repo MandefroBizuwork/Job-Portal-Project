@@ -1,0 +1,35 @@
+.adminLgo{
+  background-color: cadetblue;
+  width: 100% !important;
+}
+
+.m-t-xs {
+  margin-top: 1px;
+}
+.dropdown-menu {
+    border: medium none;
+    border-radius: 3px;
+    box-shadow: 0 0 3px rgba(86, 96, 117, 0.7);
+    display: none;
+  
+    font-size: 12px;
+    left: 0;
+    list-style: none outside none;
+    padding: 5px;
+    position: absolute;
+    text-shadow: none;
+    top: 100%;
+    z-index: 1000;
+   
+ 
+  }
+  .dropdown-item{
+
+    font-size: 15px;
+    font-weight: bolder;
+  }
+ 
+  /* .adminMenu li{
+  margin-right: .25rem !important;
+  margin-left: .25rem !important;
+ } */
