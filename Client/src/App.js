@@ -26,6 +26,7 @@ import Documents from "./components/Documents/Documents";
 import Profile from "./components/Pages/DashBoard/Profile";
 import AdminLayout from "./components/Pages/DashBoard/AdminLayout/AdminLayout";
 import Jobs from "./components/Pages/DashBoard/Jobs";
+import DashboardPage from "./components/Pages/DashBoard/NewAdminHeader/DashboardPage";
 
 function App() {
   useEffect(() => {
@@ -60,7 +61,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Dashboard />} />
+          <Route index element={<DashboardPage />} />
           <Route path="profile" element={<Profile />} />
           <Route path="jobs" element={<Jobs/>} />
 
