@@ -1,3 +1,9 @@
+*, ::after, ::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 
 body {
   font-family: "Open Sans", sans-serif;
@@ -6,7 +12,7 @@ body {
   font-size: 20px !important;
  
 }
-enuItems ul li{
+.enuItems ul li{
 
   text-align: center;
   padding: 2px 2px;

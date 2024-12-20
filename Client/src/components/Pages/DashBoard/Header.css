@@ -90,7 +90,7 @@ svg {
   margin-right: 25px;
   position: relative;
 }
-.nav-link {
+.Adminheader .nav-link {
   display: block;
   padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
   font-size: var(--bs-nav-link-font-size);
@@ -173,12 +173,12 @@ svg {
   font-size: 15px;
   font-weight: bolder;
 }
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
   #main-container,
   #footer {
     margin-left: 300px;
   }
-}
+} */
 
 @media (max-width: 992px) {
   .Adminheader .search-bar {
@@ -199,8 +199,8 @@ svg {
   }
 
   #main-container,
-  #footer {
-    margin-left: 0px;
+  #myfooter {
+    margin-left: 0px ;
   }
 }
 
@@ -223,23 +223,39 @@ svg {
   margin-right: auto;
 
 }
-
-.footer {
-  padding: 20px 0;
+.footerTogler {
+  margin-left: 0  !important;
+}
+.myfooter{
+  padding: 20px;
   font-size: 14px;
   transition: all 0.3s;
   border-top: 1px solid #cddfff;
+  background-color: rgb(152 119 150);
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 300px;
 }
 
-.footer .copyright {
+.myfooter .copyright {
   text-align: center;
-  color: #012970;
+ 
 }
-.footer .credits {
+.myfooter .credits {
+  padding-top: 5px;
+  text-align: center;
+  font-size: 13px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.myfooter .credits a {
   padding-top: 5px;
   text-align: center;
   font-size: 13px;
   color: #012970;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .adminLgo {
@@ -251,7 +267,7 @@ svg {
   margin-top: 1px;
 }
 hr {
-  margin: 1rem 0;
+  margin: 1px 0;
   color: inherit;
   background-color: rgb(199 196 196);
   border: 0;
@@ -268,20 +284,21 @@ hr {
 .adminMenu li a:hover {
   opacity: 0.8 !important; /* Fully opaque on hover */
   color: orange !important;
+  
 }
 .mysidebar {
   position: fixed;
   top: 60px;
   left: 0;
   width: 300px;
-  bottom: 0;
+  height: 100vh;
   z-index: 996;
   transition: left 0.3s ease-out;
   padding: 20px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent;
-  box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
   background-color: #fff;
 
 }
@@ -293,8 +310,9 @@ hr {
 }
 
 .mainToggler {
-  margin-left: 0px !important;
+  margin-left: 0 !important;
 }
+
 
 .sidebar-nav {
   padding: 0;
@@ -316,24 +334,78 @@ hr {
   align-items: center;
   font-size: 15px;
   font-weight: 600;
-  color: #4154f1;
+
   transition: 0.3;
-  background: #f6f9ff;
+  color: #012970;
+ 
   padding: 10px 15px;
   border-radius: 4px;
+  opacity: 1;
+  transition: all .3s opacity;
 }
-.sidebar-nav .nav-link.collapsed {
+/* .sidebar-nav .nav-link.collapsed {
   color: #012970;
   background: #fff;
-}
+} */
 
 .mysidebar li a:hover {
-  background-color: #eef2fb !important;
+  background-color: #666565 !important;
+  color: blue !important;
+  opacity: 0.6;
 }
 
 #main-container {
   margin-top: 60px;
   padding: 20px 30px;
   transition: all 0.3s;
-  /* margin-left: 0px; */
+  margin-left: 300px;
+}
+
+
+
+/* sidebar dropdown-item */
+.sidebar-nav .sidbarDropdown-container { 
+  margin:0;
+  margin-left: 20px;
+  padding: 5px 0 0 0;
+  list-style: none;
+  display: block; /* Change this to block initially */
+  margin-left: 20px;
+  opacity: 0; /* Start with opacity 0 */
+  max-height: 0; /* Start with max-height 0 for sliding effect */
+  overflow: hidden; /* Hide overflow */
+  transition: opacity 0.5s ease-in-out, max-height 0.3s ease-in-out; /* Add transition */
+  
+}
+.form-collapse{
+  opacity: 1 !important; /* Set to 1 when active */
+  max-height: 200px !important; /* Adjust max-height according to your content */
+
+}
+.sidebar-nav .sidbarDropdown-container li  a {
+  display: flex;
+ 
+  font-size: 14px;
+  font-weight: 600;
+  color: #012970;
+  transition: 0.3;
+  padding: 10px 0 10px 0px;
+  transition: 0.3s;
+ align-items: center;
+ justify-content: center;
+ padding: 14px 20px;
+ background-color: #eef2fb ;
+
+  
+}
+/* .sidebar-nav .sidbarDropdown-container a svg {
+  font-size: 6px;
+  margin-right: 8px;
+  line-height: 0;
+  border-radius: 50%;
+} */
+.sidebar-nav .sidbarDropdown-container a {
+  font-size: 14px;
+  font-weight: 600;
+  color: #012970;
 }

@@ -42,7 +42,7 @@ function Login() {
         const data = await response.json();
 
         if (response.ok) {
-          alert("Login successful!");
+          // alert("Login successful!");
           navigate("/dashboard"); // Redirect to a protected route after login
         } else {
           setLoginError(data.message || "Login failed");
