@@ -13,7 +13,7 @@ function Sidebar({ sideBarOpen }) {
       id="sidebar"
       className={`mysidebar ${sideBarOpen ? "showsidbar" : "hidesidbar"} `}
     >
-      <hr style={{ height: "2px" }} />
+    <hr style={{backgroundColor:"black", height:"1.5px"}}/>
       <ul class="sidebar-nav mb-auto" id="sidebar-nav">
         <li class="nav-item">
           <a class="nav-link collapsed" href="#">
@@ -29,33 +29,34 @@ function Sidebar({ sideBarOpen }) {
           <a
             onClick={collapseMenu1}
             style={{ position: "relative" }}
-            class="nav-link collapsed"
+            class="nav-link "
             data-bs-target="#forms-nav"
             data-bs-toggle="collapse"
             href="#"
             aria-expanded="false"
           >
             <i class="bi bi-journal-text"></i>
-            <span>Forms</span>
+            <span>Category</span>
             {/* <i class="bi bi-chevron-down ms-auto"></i> */}
-            {isCollapsed ? (
-              <svg
-                style={{ float: "right", right: "0", position: "absolute" }}
-                className="   ms-auto"
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-chevron-down"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
-                />
-              </svg>
-            ) : (
-              <svg 
+
+            <svg
+              style={{ float: "right", right: "0", position: "absolute" }}
+              className={`ms-auto ${
+                isCollapsed ? "bi-chevron-up" : "bi-chevron-down"
+              } `}
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
+              />
+            </svg>
+
+            {/* <svg  
                style={{ float: "right", right: "0", position: "absolute" }}
                 className="   ms-auto"
                 xmlns="http://www.w3.org/2000/svg"
@@ -69,8 +70,7 @@ function Sidebar({ sideBarOpen }) {
                   fill-rule="evenodd"
                   d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"
                 />
-              </svg>
-            )}
+              </svg> */}
           </a>
           <ul
             id="form-collapse"
@@ -82,28 +82,21 @@ function Sidebar({ sideBarOpen }) {
             <li>
               <a href="forms-elements.html">
                 <i class="bi bi-circle"></i>
-                <span>Form Elements</span>
+                <span>Electronics</span>
               </a>
             </li>
             <hr style={{ backgroundColor: "#585757" }} />
             <li>
               <a href="forms-layouts.html">
                 <i class="bi bi-circle"></i>
-                <span>Form Layouts</span>
+                <span>Men Clothes</span>
               </a>
             </li>
             <hr style={{ backgroundColor: "#585757" }} />
             <li>
               <a href="forms-editors.html">
                 <i class="bi bi-circle"></i>
-                <span>Form Editors</span>
-              </a>
-            </li>
-            <hr style={{ backgroundColor: "#585757" }} />
-            <li>
-              <a href="forms-validation.html">
-                <i class="bi bi-circle"></i>
-                <span>Form Validation</span>
+                <span>Female clothes</span>
               </a>
             </li>
             <hr style={{ backgroundColor: "#585757" }} />
@@ -116,26 +109,16 @@ function Sidebar({ sideBarOpen }) {
       <!-- End Charts Nav -->
 
       <!-- End Icons Nav --> */}
-
         <li class="nav-item">
-          <a class="nav-link collapsed" href="users-profile.html">
-            <i class="bi bi-person"></i>
-            <span>Profile</span>
+          <a class="nav-link collapsed" href="#">
+            <i class="bi bi-grid"></i>
+            <span>Products</span>
           </a>
         </li>
-
-        {/* <!-- End Profile Page Nav -->
-
-      <!-- End F.A.Q Page Nav -->
-
-      <!-- End Contact Page Nav -->
-
-      <!-- End Register Page Nav --> */}
-
         <li class="nav-item">
-          <a class="nav-link collapsed" href="pages-login.html">
-            <i class="bi bi-box-arrow-in-right"></i>
-            <span>Login</span>
+          <a class="nav-link collapsed" href="#">
+            <i class="bi bi-grid"></i>
+            <span>Users</span>
           </a>
         </li>
 

@@ -8,6 +8,7 @@
 }
 .logo img {
   max-height: 26px;
+  max-width: 26px;
   margin-right: 6px;
 }
 img,
@@ -30,9 +31,10 @@ svg {
   transition: all 0.5s;
   z-index: 997;
   height: 60px;
-  box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.2) ;
   background-color: #fff;
   padding-left: 20px;
+  border: none;
 }
 .Adminheader svg {
   width: 1.8rem; /* Adjust to desired size */
@@ -152,7 +154,7 @@ svg {
   padding-bottom: 0;
   top: 8px !important;
 }
-#DropItems {
+.Adminheader-nav #DropItems {
   position: absolute !important;
   inset: 10px -50px auto auto !important;
   margin: 0px !important;
@@ -163,16 +165,23 @@ svg {
   animation-name: dropdown-animate;
   animation-duration: 0.2s;
   animation-fill-mode: both;
-  display: none;
+  opacity: 0; /* Start with opacity 0 */
+  max-height: 0; /* Start with max-height 0 for sliding effect */
+  overflow: hidden; /* Hide overflow */
+  transition: opacity 0.5s ease-in-out, max-height 0.3s ease-in-out; /* Add transition */
   box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
   border: medium none !important;
   z-index: 1000 !important;
-  background-color: #cddfff;
+  background-color: #c3d8c2;
 }
 #DropItems .dropdown-item {
   font-size: 15px;
   font-weight: bolder;
 }
+.Adminheader-nav .menu-show{
+  max-height: 200px !important;
+  opacity: 1 !important;
+  }
 /* @media (min-width: 992px) {
   #main-container,
   #footer {
@@ -181,6 +190,7 @@ svg {
 } */
 
 @media (max-width: 992px) {
+
   .Adminheader .search-bar {
     position: absolute !important;
     z-index: 1000;
@@ -190,8 +200,8 @@ svg {
     background-color: #aab7cf;
     padding: 20px !important;
   }
-  #DropItems {
-    inset: 10px -50px auto auto !important;
+  .Adminheader #DropItems {
+    inset: 25px -50px auto auto !important;
   }
 
   .mysidebar {
@@ -202,13 +212,19 @@ svg {
   #myfooter {
     margin-left: 0px ;
   }
+  #profile-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
-.slide-down{
+.Search-slide-down{
 
   top: 100% !important;
 }
- .slide-up{
+ .Search-slide-up{
   top: -100px;
 
 }
@@ -299,7 +315,7 @@ hr {
   scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-  background-color: #fff;
+  background-color:  #d5dcd9;
 
 }
 .hidesidbar {
@@ -343,11 +359,20 @@ hr {
   opacity: 1;
   transition: all .3s opacity;
 }
-/* .sidebar-nav .nav-link.collapsed {
-  color: #012970;
-  background: #fff;
-} */
-
+.bi-chevron-up {
+  transform: rotate(0deg);
+}
+ .bi-chevron-up {
+  
+  transition: transform 0.3s ease-in-out;
+}
+.bi-chevron-down {
+  transform: rotate(180deg);
+}
+ .bi-chevron-down {
+  
+  transition: transform 0.3s ease-in-out;
+} 
 .mysidebar li a:hover {
   background-color: #666565 !important;
   color: blue !important;
@@ -365,17 +390,19 @@ hr {
 
 /* sidebar dropdown-item */
 .sidebar-nav .sidbarDropdown-container { 
+ outline: 0px inset rgb(227, 227, 227);
   margin:0;
   margin-left: 20px;
-  padding: 5px 0 0 0;
+  padding: 0px ;
   list-style: none;
   display: block; /* Change this to block initially */
   margin-left: 20px;
   opacity: 0; /* Start with opacity 0 */
   max-height: 0; /* Start with max-height 0 for sliding effect */
   overflow: hidden; /* Hide overflow */
-  transition: opacity 0.5s ease-in-out, max-height 0.3s ease-in-out; /* Add transition */
-  
+  transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out; /* Add transition */
+  background-color: #bac5c0 ;
+  box-shadow: 0px 2px 2px 2px rgb(0, 0, 0,0.1);
 }
 .form-collapse{
   opacity: 1 !important; /* Set to 1 when active */
@@ -394,7 +421,7 @@ hr {
  align-items: center;
  justify-content: center;
  padding: 14px 20px;
- background-color: #eef2fb ;
+
 
   
 }
@@ -409,3 +436,4 @@ hr {
   font-weight: 600;
   color: #012970;
 }
+

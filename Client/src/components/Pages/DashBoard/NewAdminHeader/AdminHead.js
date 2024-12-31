@@ -3,9 +3,11 @@ import Profile from "../../../../images/profile.jpg";
 import AdminLogo from "../../../../images/aminLogo.png";
 import $ from "jquery";
 const AdminHead = ({ ToggleSidebar }) => {
+  const [openProfileMenu, setopenProfileMenu] = useState(false);
   const DropDawnToggle = () => {
-    $("#DropItems").slideToggle();
+   setopenProfileMenu((prev)=>!prev);
   };
+
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleSearchInput = () => {
@@ -21,7 +23,7 @@ const AdminHead = ({ ToggleSidebar }) => {
         <div class="d-flex align-items-center justify-content-between">
           <a href="#" class="logo d-flex align-items-center">
             <img src={AdminLogo} alt="" />
-            <span class="d-none d-lg-block">NiceAdmin</span>
+            <span class="d-none d-lg-block">Admin page</span>
           </a>
           {/* <i class="bi bi-list toggle-sidebar-btn"></i> */}
           {/* bar icon */}
@@ -44,7 +46,7 @@ const AdminHead = ({ ToggleSidebar }) => {
 
         <div
           id="searchInput"
-          className={`search-bar ${isVisible ? "slide-down" : "slide-up"}`}
+          className={`search-bar ${isVisible ? "Search-slide-down" : "Search-slide-up"}`}
         >
           <form
             class="search-form d-flex align-items-center"
@@ -289,20 +291,21 @@ const AdminHead = ({ ToggleSidebar }) => {
             </li>
 
             <li class="nav-item dropdown pe-3">
-              <a
+              <a id="profile-btn"
                 class="nav-link nav-profile d-flex align-items-center pe-0"
                 href="#"
                 data-bs-toggle="dropdown"
                 onClick={DropDawnToggle}
               >
-                <img src={Profile} alt="Profile" className="rounded-circle" />
-                <span class="d-none d-md-block dropdown-toggle ps-2">
+                <img src={Profile} alt="Profile" className="rounded-circle" style={{width:"30px",padding:"1px"}} />
+                <span class="d-none d-md-block ps-2">
                   M. Bizuwork
                 </span>
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M7.00003 8.5C6.59557 8.5 6.23093 8.74364 6.07615 9.11732C5.92137 9.49099 6.00692 9.92111 6.29292 10.2071L11.2929 15.2071C11.6834 15.5976 12.3166 15.5976 12.7071 15.2071L17.7071 10.2071C17.9931 9.92111 18.0787 9.49099 17.9239 9.11732C17.7691 8.74364 17.4045 8.5 17 8.5H7.00003Z" fill="#000000"></path> </g></svg>
               </a>
 
               <ul
-                className=" dropdown-menu-end dropdown-menu-arrow profile show mx-5 "
+                className={`dropdown-menu-end dropdown-menu-arrow profile mx-5 ${openProfileMenu?"menu-show":"" } `}
                 id="DropItems"
                 data-popper-placement="bottom-end"
               >
