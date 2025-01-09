@@ -20,7 +20,7 @@ function ManageJob() {
 
 
 
-
+// console.log(jobsData)
   const [currentData,setcurrentData]=useState()
   const totalPages = Math.ceil(jobsData.length / rowsPerPage);
 
@@ -28,10 +28,10 @@ function ManageJob() {
 
   const fetchJobs = async () => {
     try {
-      const response = await fetch("http://localhost:2000/");
+      const response = await fetch("http://localhost:2000/api/jobs/");
       const data = await response.json();
-      console.log(data.Jobs)
-      SetJobs(data.Jobs || []);
+     
+      SetJobs(data.Jobs[0] || []);
     } catch (error) {
       console.error("Error fetching jobs:", error);
     }
@@ -139,7 +139,7 @@ setSlectedJob_ID(id)
     setIsModalOpen(false);
     try {
       const response = await fetch(
-        `http://localhost:2000/ManageJobs/DeleteJob/${jobIdToDelete}`,
+        `http://localhost:2000/api/jobs/DeleteJob/${jobIdToDelete}`,
         {
           method: "DELETE",
           headers: {
@@ -205,7 +205,7 @@ setSlectedJob_ID(id)
          
         </div>
 
-        <div className="table-container shadow bg-light container ">
+        <div className="table-container shadow bg-light container " style={{overflow:"auto"}}>
           <table className="table table-striped table-hover">
             <thead style={{backgroundColor:"lightgray"}}>
               <tr>

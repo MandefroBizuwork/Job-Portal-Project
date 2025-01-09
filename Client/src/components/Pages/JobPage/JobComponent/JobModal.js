@@ -56,8 +56,8 @@ const JobModal = ({ modalType, showModal, handleClose, SlectedJob,id }) => {
     if (Object.keys(validationErrors).length === 0) {
       try {
         const url = modalType === "create" 
-          ? `${API_BASE_URL}ManageJobs/PostJob` 
-          : `${API_BASE_URL}ManageJobs/UpdateJob/${id}`;
+          ? `${API_BASE_URL}api/jobs/PostJob` 
+          : `${API_BASE_URL}api/jobs/UpdateJob/${id}`;
         
         const method = modalType === "create" ? "POST" : "PUT";
         const response = await fetch(url, {
@@ -67,7 +67,7 @@ const JobModal = ({ modalType, showModal, handleClose, SlectedJob,id }) => {
         });
   
         const data = await response.json();
-        if (response.ok) {
+        if (response.status===200) {
           setMessage(modalType === "create" ? "Job posted successfully!" : "Job updated successfully!");
           setError(false);
           setFormSlectedJob({
@@ -83,9 +83,9 @@ const JobModal = ({ modalType, showModal, handleClose, SlectedJob,id }) => {
           console.error("Error response:", data); // Added for debugging
         }
       } catch (err) {
-        setMessage("An unexpected error occurred.");
+        setMessage(err.message);
         setError(true);
-        console.error(err);
+        console.error(err.message);
       }
     } else {
       setMessage("Please fix the errors and submit again.");
@@ -93,7 +93,7 @@ const JobModal = ({ modalType, showModal, handleClose, SlectedJob,id }) => {
     }
   };
   return (
-    <Modal className="modal-top" show={showModal} onHide={handleClose}>
+    <Modal  show={showModal} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>
           {modalType === "create" ? "Post New Job" : "Update Job"}
