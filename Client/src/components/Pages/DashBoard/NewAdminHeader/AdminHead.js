@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import Profile from "../../../../images/profile.jpg";
 import AdminLogo from "../../../../images/aminLogo.png";
 import $ from "jquery";
+import { AppState } from "../../../../App";
+import { Link } from "react-router-dom";
 const AdminHead = ({ ToggleSidebar }) => {
   const [openProfileMenu, setopenProfileMenu] = useState(false);
+  const { user,logout } = useContext(AppState); // Correctly access the context
+
+
   const DropDawnToggle = () => {
    setopenProfileMenu((prev)=>!prev);
   };
@@ -299,7 +304,7 @@ const AdminHead = ({ ToggleSidebar }) => {
               >
                 <img src={Profile} alt="Profile" className="rounded-circle" style={{width:"30px",padding:"1px"}} />
                 <span class="d-none d-md-block ps-2">
-                  M. Bizuwork
+                 {user?.email}
                 </span>
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M7.00003 8.5C6.59557 8.5 6.23093 8.74364 6.07615 9.11732C5.92137 9.49099 6.00692 9.92111 6.29292 10.2071L11.2929 15.2071C11.6834 15.5976 12.3166 15.5976 12.7071 15.2071L17.7071 10.2071C17.9931 9.92111 18.0787 9.49099 17.9239 9.11732C17.7691 8.74364 17.4045 8.5 17 8.5H7.00003Z" fill="#000000"></path> </g></svg>
               </a>
@@ -322,9 +327,9 @@ const AdminHead = ({ ToggleSidebar }) => {
 
                 <li class="dropdown-divider"></li>
                 <li>
-                  <a class="dropdown-item" href="../Logout">
+                  <button class="dropdown-item" onClick={logout}>
                     Logout
-                  </a>
+                  </button>
                 </li>
               </ul>
             </li>

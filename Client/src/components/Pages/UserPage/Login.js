@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function Login() {
+  const[loading,setLoading]=useState(false)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
@@ -25,35 +26,39 @@ function Login() {
 
   // Handle form submission
   const handleSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
     const validationErrors = validate();
     setErrors(validationErrors);
-
+  
     if (Object.keys(validationErrors).length === 0) {
-      // No validation errors, proceed to submit the form
       try {
-        const response = await fetch("http://localhost:2000/api/login", {
+        const response = await fetch("http://localhost:2000/api/user/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          credentials: "include", // Send cookies with request
           body: JSON.stringify({ email, password }),
         });
-
+  
         const data = await response.json();
-
+  
         if (response.ok) {
-          // alert("Login successful!");
-          navigate("/dashboard"); // Redirect to a protected route after login
+          setLoading(false)          
+          localStorage.setItem("token", data.token);
+          setEmail("");
+          setPassword("");
+          navigate("/dashboard");
         } else {
-          setLoginError(data.message || "Login failed");
+          setLoginError(data.msg || "Login failed");
+          setLoading(false)    
         }
       } catch (err) {
-        setLoginError("An unexpected error occurred!" + err);
+        setLoginError("An unexpected error occurred!");
         console.error("Fetch error:", err);
+        setLoading(false)    
       }
     } else {
-      // There are validation errors
       setMessage("Please fix the errors and submit again.");
+      setLoading(false)    
     }
   };
 
@@ -119,12 +124,15 @@ function Login() {
               </div>
 
               <div className="mt-4">
-                <button
+                {loading?(<p>Loading...</p>)
+                
+                
+                :(<button
                   className="btn-primary form-control form-control-lg"
                   type="submit"
                 >
                   Login
-                </button>
+                </button>)}
               </div>
               <div className="mt-3">
                 <hr />

@@ -6,6 +6,7 @@ function Register() {
   const [values, setValues] = useState({
     Fname: "",
     Lname: "",
+    username:"",
     Email: "",
     Password: "",
   });
@@ -28,6 +29,9 @@ function Register() {
     if (!values.Lname.trim()) {
       errors.Lname = "Last name is required.";
     }
+    if (!values.username.trim()) {
+      errors.username = "username is required.";
+    }
     if (!values.Email.trim()) {
       errors.Email = "Email is required.";
     }
@@ -47,7 +51,7 @@ function Register() {
     if (Object.keys(validationErrors).length === 0) {
       // No validation errors, proceed to submit the form
       try {
-        const response = await fetch("http://localhost:2000/user/register", {
+        const response = await fetch("http://localhost:2000/api/user/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -56,11 +60,11 @@ function Register() {
         });
 
         const data = await response.json();
-        if (response.ok) {
-          setMessage("User registered successfully!");
+        if (response.status===200) {
+          setMessage(data.msg ||"User registered successfully!");
           setError(false);
         } else {
-          setMessage(data.message || "An error occurred.");
+          setMessage(data.msg || "An error occurred.");
           setError(true);
         }
       } catch (err) {
@@ -128,6 +132,18 @@ function Register() {
               </div>
               <div>
                 <label>
+                  Username<span style={{ color: "red" }}>*</span>:
+                </label>
+                <input
+                  className="form-control form-control-lg"
+                  type="text"
+                  name="username"
+                  onChange={handleChange}
+                />
+                {errors.username && <p style={{ color: "red" }}>{errors.username}</p>}
+              </div>
+              <div>
+                <label>
                   Password<span style={{ color: "red" }}>*</span>:
                 </label>
                 <input
@@ -160,7 +176,7 @@ function Register() {
                 </div>
               </div>
             </form>
-            {message && <p style={{ color: errors ? "red" : "green" }}></p>}
+            {message && <p style={{ color: "red" }}>{message}</p>}
           </div>
         </div>
       </div>

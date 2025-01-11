@@ -5,7 +5,7 @@ async function LoginAuth(req, res, nextRout) {
   const authHeader = req.headers.authorization;
 
   // Check if the Authorization header exists
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!authHeader || !authHeader.startsWith("Bearer")) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
       .json({ msg: "Authorization invalid" });
@@ -17,9 +17,9 @@ async function LoginAuth(req, res, nextRout) {
   try {
     // Verify the token
     const secret = process.env.JWT_SECRET;
-    const { username, userid } = jwt.verify(token, secret);
+    const { email, userid } = jwt.verify(token, secret);
 
-    req.authorizedUser = { username, userid };
+    req.authorizedUser = { email, userid };
     //console.log(req.authorizedUser);
     nextRout();
 
