@@ -91,6 +91,7 @@ async function Login(req, res) {
 async function CheckUser(req, res) {
   const email = req.authorizedUser.email;
   const userid = req.authorizedUser.userid;
+
   return res.status(StatusCodes.OK).json({ email, userid });
 }
 

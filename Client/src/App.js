@@ -3,7 +3,7 @@ import "./Css/font-awesome-4.7/css/font-awesome.min.css";
 import "./Css/mystyle.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { createContext, useEffect, useState, useMemo } from "react";
-import AOS from 'aos'; // AOS JavaScript
+import AOS from "aos"; // AOS JavaScript
 
 // Import Components
 import Index from "./components/Pages/Main/Index";
@@ -27,40 +27,50 @@ export const AppState = createContext();
 
 function App() {
   const [user, setUser] = useState(null);
-
+const token=window.localStorage.getItem("token")
   const loadUser = async () => {
+  
     try {
       const response = await fetch("http://localhost:2000/api/user/checkuser", {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
-      if (response.ok) {
+      if (response.status===200) {
         const data = await response.json();
         setUser(data);
       } else {
         console.error("Failed to fetch user:", response.status);
+        localStorage.removeItem("token");
+        navigate("/login");
+        setUser(null)
+       
       }
-    } catch (err) {
-      console.error("Error loading user:", err.message);
+    } catch (error) {
+      console.error(
+        "Error during authentication:",
+        error.response?.data || error.message
+      );
+      localStorage.removeItem("token");
+      navigate("/login");
     }
   };
 
   useEffect(() => {
     loadUser();
     AOS.init({ duration: 1000, once: true });
-  }, []);
-const navigate=useNavigate()
+  }, [token]);
+  const navigate = useNavigate();
   const logout = () => {
     setUser(null);
     localStorage.removeItem("token");
-    navigate("/login")
+    navigate("/login");
   };
 
   // const contextValue = useMemo(() => ({ user, setUser, logout }), [user]);
-
+console.log(user)
   return (
     <div>
       <AppState.Provider value={{ user, setUser, logout }}>
@@ -70,8 +80,23 @@ const navigate=useNavigate()
             <Route path="/PostJob" element={<PostJob />} />
             <Route path="/ManageJob" element={<ManageJob />} />
             <Route path="/ManageJob/:JobID" element={<UpdateJob />} />
-            <Route path="/Register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/Register"
+              element={
+                <RedirectingAuthenticated>
+                  <Register />
+                </RedirectingAuthenticated>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <RedirectingAuthenticated>
+                  <Login />
+                </RedirectingAuthenticated>
+              }
+            />
+
             <Route path="/contact" element={<Email />} />
             <Route path="/documents" element={<Documents />} />
             <Route path="*" element={<Fouro4 />} />

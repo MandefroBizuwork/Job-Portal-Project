@@ -1,17 +1,16 @@
-import React, { useContext } from 'react'
-import { AppState } from '../../App'
-import { Navigate } from 'react-router-dom'
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { AppState } from "../../App";
+const RedirectingAuthenticated = ({ children }) => {
+  const {user} = useContext(AppState)
+  
+const isLogedin=!!user
+  if (isLogedin) {
+    // If no token, redirect to login
+    return <Navigate to="/dashboard" />;
+  }
 
-function RedirectingAuthenticated() {
-    const {user}=useContext(AppState)
+  return children; // Render the children if authenticated
+};
 
-    if(!!user){
-
-     return <Navigate to="/dashboard"/>
-    }
-   
-   
- 
-}
-
-export default RedirectingAuthenticated
+export default RedirectingAuthenticated;
