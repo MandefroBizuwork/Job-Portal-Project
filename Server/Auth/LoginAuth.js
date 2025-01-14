@@ -17,9 +17,9 @@ async function LoginAuth(req, res, nextRout) {
   try {
     // Verify the token
     const secret = process.env.JWT_SECRET;
-    const { email, userid } = jwt.verify(token, secret);
+    const { email, userid,role } = jwt.verify(token, secret);
 
-    req.authorizedUser = { email, userid };
+    req.authorizedUser = { email, userid,role };
     //console.log(req.authorizedUser);
     nextRout();
 

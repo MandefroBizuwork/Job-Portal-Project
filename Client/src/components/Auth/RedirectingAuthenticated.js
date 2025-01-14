@@ -7,7 +7,9 @@ const RedirectingAuthenticated = ({ children }) => {
 const isLogedin=!!user
   if (isLogedin) {
     // If no token, redirect to login
-    return <Navigate to="/dashboard" />;
+    if(user.role==="admin"){
+      return <Navigate to="/dashboard" />;
+    }
   }
 
   return children; // Render the children if authenticated

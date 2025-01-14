@@ -55,7 +55,7 @@ async function Login(req, res) {
   try {
     // Check if user exists
     const [user] = await dbcon.query(
-      "SELECT Personid, email, password FROM users WHERE email = ?",
+      "SELECT * FROM users WHERE email = ?",
       [email]
     );
 
@@ -72,7 +72,7 @@ async function Login(req, res) {
     // Generate JWT token
     const secret = process.env.JWT_SECRET;
     const token = jwt.sign(
-      { email: user[0].email, userid: user[0].Personid },
+      { email: user[0].email, userid: user[0].Personid,role:user[0].Role },
       secret,
       { expiresIn: "1h" }
     );
@@ -80,7 +80,7 @@ async function Login(req, res) {
     // Successful login
     return res.status(StatusCodes.OK).json({
       msg: "Login successful",
-      user: { id: user[0].Personid, email: user[0].email },
+      user: { id: user[0].Personid, email: user[0].email,role:user[0].Role },
       token: token
     });
   } catch (err) {
@@ -91,8 +91,8 @@ async function Login(req, res) {
 async function CheckUser(req, res) {
   const email = req.authorizedUser.email;
   const userid = req.authorizedUser.userid;
-
-  return res.status(StatusCodes.OK).json({ email, userid });
+  const role = req.authorizedUser.role;
+  return res.status(StatusCodes.OK).json({ email, userid,role});
 }
 
 module.exports = { Login, Register, CheckUser };

@@ -40,13 +40,17 @@ function Login() {
         });
   
         const data = await response.json();
-  
+        // console.log(data.user.role==="admin")
         if (response.ok) {
           setLoading(false)          
           localStorage.setItem("token", data.token);
           setEmail("");
           setPassword("");
-          navigate("/dashboard");
+           if(data.user.role==="admin"){
+            navigate("/dashboard");
+           }
+          // navigate("/dashboard");
+         // console.log(data.role)
         } else {
           setLoginError(data.msg || "Login failed");
           setLoading(false)    
