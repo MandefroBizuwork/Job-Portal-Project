@@ -49,6 +49,9 @@ function Login() {
            if(data.user.role==="admin"){
             navigate("/dashboard");
            }
+           else if(data.user.role==="customer"){
+            navigate("/customer");
+           }
           // navigate("/dashboard");
          // console.log(data.role)
         } else {

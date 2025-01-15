@@ -1,16 +1,26 @@
-import { useContext } from "react";
-import { Navigate } from "react-router-dom";
-import { AppState } from "../../App";
+// import { useContext } from "react";
+import { Navigate,Outlet } from "react-router-dom";
 
-const ProtectedRoute = ({ children }) => {
- 
-const token=localStorage.getItem("token")
-  if (!token) {
-    // If no token, redirect to login
-    return <Navigate to="/login" />;
+// import { AppState } from "../../App";
+
+// const ProtectedRoute = ({ children }) => {
+// //  const {user}=useContext(AppState)
+// const token=localStorage.getItem("token")
+//   if (!token) {
+//     // If no token, redirect to login
+//     return <Navigate to="/login" />;
+//   }
+
+//   return children; // Render the children if authenticated
+// };
+
+// export default ProtectedRoute;
+const ProtectedRoute = ({  isAllowed,  redirectPath,  children}) => {
+  if (!isAllowed) {
+    return <Navigate to={redirectPath} replace />;
   }
 
-  return children; // Render the children if authenticated
+  return children ? children : <Outlet />;
 };
 
-export default ProtectedRoute;
+export default ProtectedRoute

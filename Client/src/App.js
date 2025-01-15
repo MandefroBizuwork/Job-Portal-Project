@@ -22,14 +22,15 @@ import AdminLayout from "./components/Pages/DashBoard/AdminLayout/AdminLayout";
 import Jobs from "./components/Pages/DashBoard/Jobs";
 import DashboardPage from "./components/Pages/DashBoard/NewAdminHeader/DashboardPage";
 import RedirectingAuthenticated from "./components/Auth/RedirectingAuthenticated";
+import Vacancy from "./components/Pages/JobPage/Vacancy";
+import CustomerPage from "./components/Pages/UserPage/CustomerPage";
 
 export const AppState = createContext();
 
 function App() {
   const [user, setUser] = useState(null);
-const token=window.localStorage.getItem("token")
+  const token = window.localStorage.getItem("token");
   const loadUser = async () => {
-  
     try {
       const response = await fetch("http://localhost:2000/api/user/checkuser", {
         method: "GET",
@@ -38,15 +39,14 @@ const token=window.localStorage.getItem("token")
         },
       });
 
-      if (response.status===200) {
+      if (response.status === 200) {
         const data = await response.json();
         setUser(data);
       } else {
         console.error("Failed to fetch user:", response.status);
         localStorage.removeItem("token");
         navigate("/login");
-        setUser(null)
-       
+        setUser(null);
       }
     } catch (error) {
       console.error(
@@ -70,16 +70,28 @@ const token=window.localStorage.getItem("token")
   };
 
   // const contextValue = useMemo(() => ({ user, setUser, logout }), [user]);
-console.log(user)
+  console.log(user);
   return (
     <div>
       <AppState.Provider value={{ user, setUser, logout }}>
         <Routes>
           <Route path="/" element={<CommonLayout />}>
             <Route index element={<Index />} />
+            <Route path="Vacancy" element={<Vacancy />} />
+
             <Route path="/PostJob" element={<PostJob />} />
-            <Route path="/ManageJob" element={<ManageJob />} />
-            <Route path="/ManageJob/:JobID" element={<UpdateJob />} />
+            <Route
+              path="/ManageJob"
+              element={
+                <ProtectedRoute
+                  redirectPath="/login"
+                  isAllowed={!!user && user.role.includes("admin")}
+                >
+                  <ManageJob />
+                </ProtectedRoute>
+              }
+            />
+            {/* <Route path="/ManageJob/:JobID" element={<UpdateJob />} /> */}
             <Route
               path="/Register"
               element={
@@ -98,14 +110,27 @@ console.log(user)
             />
 
             <Route path="/contact" element={<Email />} />
-            <Route path="/documents" element={<Documents />} />
+            <Route
+              path="/documents"
+              element={
+                <ProtectedRoute
+                  redirectPath="/login"
+                  isAllowed={!!user && user.role.includes("admin")}
+                >
+                  <Documents />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<Fouro4 />} />
           </Route>
           {/* Protected Admin Routes */}
           <Route
             path="/dashboard"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute
+                redirectPath="/login"
+                isAllowed={!!user && user.role.includes("admin")}
+              >
                 <AdminLayout />
               </ProtectedRoute>
             }
@@ -114,6 +139,18 @@ console.log(user)
             <Route path="profile" element={<Profile />} />
             <Route path="jobs" element={<Jobs />} />
           </Route>
+          <Route
+            path="/customer"
+            element={
+              <ProtectedRoute
+                redirectPath="/login"
+                isAllowed={!!user && user.role.includes("customer")}
+              >
+                <CustomerPage />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Redirect based on user authentication */}
           {/* <Route path="/redirect" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/" />} /> */}
         </Routes>

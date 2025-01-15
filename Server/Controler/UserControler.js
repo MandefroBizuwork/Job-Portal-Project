@@ -95,4 +95,10 @@ async function CheckUser(req, res) {
   return res.status(StatusCodes.OK).json({ email, userid,role});
 }
 
-module.exports = { Login, Register, CheckUser };
+async function userReport(req,res) {
+  const [user] = await dbcon.query("SELECT * FROM users WHERE status = 0");
+  // const userCount=user.length
+  console.log(user)
+  res.status(StatusCodes.OK).json({ latestuser:user});
+}
+module.exports = { Login, Register, CheckUser,userReport };

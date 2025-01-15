@@ -83,14 +83,14 @@ function Header() {
                   Vacancy
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link id="navlink" className="nav-link" to="/PostJob/">
                   Post a Job
                 </Link>
-              </li>
+              </li> */}
               <li className="nav-item">
                 <Link id="navlink" className="nav-link" to="/ManageJob/">
-                  Manage Job
+                Post a Job
                 </Link>
               </li>
               <li className="nav-item">

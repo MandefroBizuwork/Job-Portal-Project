@@ -10,6 +10,10 @@ const isLogedin=!!user
     if(user.role==="admin"){
       return <Navigate to="/dashboard" />;
     }
+    else if(user.role==="customer")
+    {
+      return <Navigate to="/customer" />;
+    }
   }
 
   return children; // Render the children if authenticated

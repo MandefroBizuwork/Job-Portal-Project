@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Profile from "../../../../images/profile.jpg";
 import AdminLogo from "../../../../images/aminLogo.png";
 import $ from "jquery";
@@ -6,11 +6,12 @@ import { AppState } from "../../../../App";
 import { Link } from "react-router-dom";
 const AdminHead = ({ ToggleSidebar }) => {
   const [openProfileMenu, setopenProfileMenu] = useState(false);
-  const { user,logout } = useContext(AppState); // Correctly access the context
-
-
+  const { user, logout } = useContext(AppState); // Correctly access the context
+  const [userCounts, setUserCount] = useState(0);
+  const [userlist, setuserlist] = useState([]);
+  const [error, setError] = useState("");
   const DropDawnToggle = () => {
-   setopenProfileMenu((prev)=>!prev);
+    setopenProfileMenu((prev) => !prev);
   };
 
   const [isVisible, setIsVisible] = useState(false);
@@ -18,7 +19,35 @@ const AdminHead = ({ ToggleSidebar }) => {
   const toggleSearchInput = () => {
     setIsVisible((prev) => !prev);
   };
+  useEffect(() => {
+    const fetchUsercount = async () => {
+      try {
+        const api = "http://localhost:2000/api/user/userReport";
+        const response = await fetch(api);
 
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const userdata = await response.json();
+        // console.log(userdata)
+
+        setUserCount(userdata.latestuser.length);
+        setuserlist(userdata.latestuser);
+        // console.log(userdata.latestuser.length)
+        // if (userdata.latestuser[0].length == 0) {
+        //   setError("No notification found");
+        // }
+        //  console.log(userdata.latestuser[0].FirstName)
+      } catch (e) {
+        // setError(e.message);
+        console.log(e.message);
+      }
+    };
+
+    fetchUsercount();
+  }, []);
+console.log(userlist.length)
   return (
     <div>
       <header
@@ -51,7 +80,9 @@ const AdminHead = ({ ToggleSidebar }) => {
 
         <div
           id="searchInput"
-          className={`search-bar ${isVisible ? "Search-slide-down" : "Search-slide-up"}`}
+          className={`search-bar ${
+            isVisible ? "Search-slide-down" : "Search-slide-up"
+          }`}
         >
           <form
             class="search-form d-flex align-items-center"
@@ -86,7 +117,8 @@ const AdminHead = ({ ToggleSidebar }) => {
               <a class="nav-link nav-icon search-bar-toggle " href="#">
                 {/* search bar togller icon */}
                 {isVisible ? (
-                  <svg  onClick={toggleSearchInput}
+                  <svg
+                    onClick={toggleSearchInput}
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="16"
@@ -124,75 +156,54 @@ const AdminHead = ({ ToggleSidebar }) => {
                 >
                   <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6" />
                 </svg>
-                <span class="badge bg-primary badge-number">4</span>
+                <span class="badge bg-primary badge-number">{userCounts}</span>
               </a>
 
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+              <ul class=" notifications" style={{}}>
                 <li class="dropdown-header">
-                  You have 4 new notifications
+                 {userCounts>0? (<p>You have {userCounts} new notifications</p>):"There is no notification"}
+                </li>
+                <li>
+                  <hr
+                    class="dropdown-divider"
+                    style={{ backgroundColor: " rgb(88, 87, 87)" }}
+                  />
+                </li>
+
+               
+                  { userlist && userlist.length > 0 ?(
+                    userlist.map((item, key) =>(
+                     <> <li class="notification-item">
+                  <i class="bi bi-exclamation-circle text-warning"></i>
+                      <div key={key}>
+                        <h4>{`${item.FirstName}  ${item.LastName}`}</h4>
+                        <p>30 min. ago</p>
+                      </div>
+                      </li>
+                       <hr
+                       class="dropdown-divider"
+                       style={{ backgroundColor: " rgb(88, 87, 87)" }}
+                     />
+                     </>
+                    )
+                    )
+
+                 ):null 
+                }
+              
+
+              
+
+                <li style={{ textAlign: "center", marginBottom: "2px" }}>
                   <a href="#">
-                    <span class="badge rounded-pill bg-primary p-2 ms-2">
+                    {
+                    userCounts>0?(
+                      <span class="badge rounded-pill bg-primary p-2 ms-2 text-center">
                       View all
                     </span>
+                    ):""
+                    }
                   </a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-
-                <li class="notification-item">
-                  <i class="bi bi-exclamation-circle text-warning"></i>
-                  <div>
-                    <h4>Lorem Ipsum</h4>
-                    <p>Quae dolorem earum veritatis oditseno</p>
-                    <p>30 min. ago</p>
-                  </div>
-                </li>
-
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-
-                <li class="notification-item">
-                  <i class="bi bi-x-circle text-danger"></i>
-                  <div>
-                    <h4>Atque rerum nesciunt</h4>
-                    <p>Quae dolorem earum veritatis oditseno</p>
-                    <p>1 hr. ago</p>
-                  </div>
-                </li>
-
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-
-                <li class="notification-item">
-                  <i class="bi bi-check-circle text-success"></i>
-                  <div>
-                    <h4>Sit rerum fuga</h4>
-                    <p>Quae dolorem earum veritatis oditseno</p>
-                    <p>2 hrs. ago</p>
-                  </div>
-                </li>
-
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-
-                <li class="notification-item">
-                  <i class="bi bi-info-circle text-primary"></i>
-                  <div>
-                    <h4>Dicta reprehenderit</h4>
-                    <p>Quae dolorem earum veritatis oditseno</p>
-                    <p>4 hrs. ago</p>
-                  </div>
-                </li>
-
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li class="dropdown-footer">
-                  <a href="#">Show all notifications</a>
                 </li>
               </ul>
             </li>
@@ -296,21 +307,47 @@ const AdminHead = ({ ToggleSidebar }) => {
             </li>
 
             <li class="nav-item dropdown pe-3">
-              <a id="profile-btn"
+              <a
+                id="profile-btn"
                 class="nav-link nav-profile d-flex align-items-center pe-0"
                 href="#"
                 data-bs-toggle="dropdown"
                 onClick={DropDawnToggle}
               >
-                <img src={Profile} alt="Profile" className="rounded-circle" style={{width:"30px",padding:"1px"}} />
-                <span class="d-none d-md-block ps-2">
-                 {user?.email}
-                </span>
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M7.00003 8.5C6.59557 8.5 6.23093 8.74364 6.07615 9.11732C5.92137 9.49099 6.00692 9.92111 6.29292 10.2071L11.2929 15.2071C11.6834 15.5976 12.3166 15.5976 12.7071 15.2071L17.7071 10.2071C17.9931 9.92111 18.0787 9.49099 17.9239 9.11732C17.7691 8.74364 17.4045 8.5 17 8.5H7.00003Z" fill="#000000"></path> </g></svg>
+                <img
+                  src={Profile}
+                  alt="Profile"
+                  className="rounded-circle"
+                  style={{ width: "30px", padding: "1px" }}
+                />
+                <span class="d-none d-md-block ps-2">{user?.email}</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7.00003 8.5C6.59557 8.5 6.23093 8.74364 6.07615 9.11732C5.92137 9.49099 6.00692 9.92111 6.29292 10.2071L11.2929 15.2071C11.6834 15.5976 12.3166 15.5976 12.7071 15.2071L17.7071 10.2071C17.9931 9.92111 18.0787 9.49099 17.9239 9.11732C17.7691 8.74364 17.4045 8.5 17 8.5H7.00003Z"
+                      fill="#000000"
+                    ></path>{" "}
+                  </g>
+                </svg>
               </a>
 
               <ul
-                className={`dropdown-menu-end dropdown-menu-arrow profile mx-5 ${openProfileMenu?"menu-show":"" } `}
+                className={`dropdown-menu-end dropdown-menu-arrow profile mx-5 ${
+                  openProfileMenu ? "menu-show" : ""
+                } `}
                 id="DropItems"
                 data-popper-placement="bottom-end"
               >

@@ -16,7 +16,7 @@ function Sidebar({ sideBarOpen }) {
     <hr style={{backgroundColor:"black", height:"1.5px"}}/>
       <ul class="sidebar-nav mb-auto" id="sidebar-nav">
         <li class="nav-item">
-          <a class="nav-link collapsed" href="#">
+          <a class="nav-link collapsed" href="">
             <i class="bi bi-grid"></i>
             <span>Dashboard</span>
           </a>
