@@ -98,50 +98,7 @@ function Header() {
                Documents
                 </Link>
               </li>
-              <li className="nav-item dropdown">
-                <Link
-                  id="navlink"
-                  onClick={DropDawnToggle}
-                  className="nav-link"
-                  to="#"
-                  role="button"
-                  aria-expanded="false"
-                >
-                  Category{" "}
-                  <i
-                    id="Dropbtn"
-                    className="fa fa-caret-down"
-                    aria-hidden="true"
-                  ></i>
-                </Link>
-                <ul
-                  id="DropItems"
-                  className="dropdown-menu"
-                  aria-labelledby="navbarDropdown"
-                >
-                  <li>
-                    <Link className="dropdown-item" to="#">
-                      IT & Telecom
-                    </Link>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="#">
-                      Business
-                    </Link>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="#">
-                      Engineering
-                    </Link>
-                  </li>
-                </ul>
-              </li>
+             
             
             </ul>
             <Link id="navlink" className="nav-link button-2" to="/Register/">
@@ -150,11 +107,7 @@ function Header() {
             <Link  id="navlink" className="nav-link button-2" to="/login/">
               Login
             </Link>
-            <Button variant="primary">
-              Notifications
-              <Badge bg="danger">9</Badge>
-              <span className="visually-hidden">unread messages</span>
-            </Button>
+           
             
              
           </div>

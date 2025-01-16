@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect,useRef } from "react";
 import Profile from "../../../../images/profile.jpg";
 import AdminLogo from "../../../../images/aminLogo.png";
 import $ from "jquery";
@@ -15,6 +15,10 @@ const AdminHead = ({ ToggleSidebar }) => {
   };
 
   const [isVisible, setIsVisible] = useState(false);
+  const [notifIsOpend, setnotifIsOpend] = useState(false);
+  const showNotif = () => {
+    setnotifIsOpend((prev) => !prev);
+  };
 
   const toggleSearchInput = () => {
     setIsVisible((prev) => !prev);
@@ -46,8 +50,41 @@ const AdminHead = ({ ToggleSidebar }) => {
     };
 
     fetchUsercount();
+  }, [user]);
+  console.log(userlist.length);
+  const contentRef = useRef(null); // Reference to the content
+  const buttonRef = useRef(null);
+  const calculateTimeAgo = (timestamp) => {
+    const createdTime = new Date(timestamp);
+    const now = new Date();
+    const timeDiff = Math.floor((now - createdTime) / 1000); // Difference in seconds
+
+    if (timeDiff < 60) return `${timeDiff} seconds ago`;
+    if (timeDiff < 3600) return `${Math.floor(timeDiff / 60)} minutes ago`;
+    if (timeDiff < 86400) return `${Math.floor(timeDiff / 3600)} hours ago`;
+    return `${Math.floor(timeDiff / 86400)} days ago`;
+  };
+
+  const handleClickOutside = (event) => {
+     // Ensure the click is not on the button or inside the notification content
+     if (
+      contentRef.current &&
+      !contentRef.current.contains(event.target) &&
+      buttonRef.current &&
+      !buttonRef.current.contains(event.target)
+    ) {
+      setnotifIsOpend(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup event listener
+    // return () => {
+    //   document.removeEventListener("mousedown", handleClickOutside);
+    // };
   }, []);
-console.log(userlist.length)
   return (
     <div>
       <header
@@ -145,7 +182,12 @@ console.log(userlist.length)
             </li>
 
             <li class="nav-item dropdown">
-              <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+              <button
+               ref={buttonRef}
+                className={`nav-link nav-icon showNotif `}
+                onClick={showNotif}
+                data-bs-toggle="dropdown"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -157,55 +199,69 @@ console.log(userlist.length)
                   <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6" />
                 </svg>
                 <span class="badge bg-primary badge-number">{userCounts}</span>
+              </button>
+              {notifIsOpend && (
+        <ul
+          ref={contentRef}
+          className={`notifications ${notifIsOpend ? "openNotif" : ""}`}
+        >
+          <li className="dropdown-header">
+            {userCounts > 0 ? (
+              <p>
+                You have{" "}
+                <small style={{ color: "red", fontWeight: "bold" }}>
+                  {userCounts}
+                </small>{" "}
+                new notifications
+              </p>
+            ) : null}
+          </li>
+          <li>
+            <hr
+              className="dropdown-divider"
+              style={{ backgroundColor: "rgb(88, 87, 87)" }}
+            />
+          </li>
+
+          {userlist && userlist.length > 0 ? (
+            userlist.map((item, key) => (
+              <React.Fragment key={key}>
+                <li className="notification-item">
+                  <i className="bi bi-exclamation-circle text-warning"></i>
+                  <div>
+                    <small>{`${item.FirstName} ${item.LastName}`}</small>
+                    <a className="seeDetailbuton" href="#">
+                      <span className="badge text-center rounded-pill bg-primary">
+                        See detail
+                      </span>
+                      <small>{calculateTimeAgo(item.timestamp)}</small>
+                    </a>
+                  </div>
+                </li>
+                <hr
+                  className="dropdown-divider"
+                  style={{ backgroundColor: "rgb(88, 87, 87)" }}
+                />
+              </React.Fragment>
+            ))
+          ) : (
+            <li style={{ textAlign: "center", color: "gray" }}>
+              No notifications found
+            </li>
+          )}
+
+          {userCounts > 0 && (
+            <li style={{ textAlign: "center", marginBottom: "5px" }}>
+              <a
+                href="#"
+                className="badge rounded-pill bg-primary p-2 ms-2 text-center viewAllbuton"
+              >
+                View all
               </a>
-
-              <ul class=" notifications" style={{}}>
-                <li class="dropdown-header">
-                 {userCounts>0? (<p>You have {userCounts} new notifications</p>):"There is no notification"}
-                </li>
-                <li>
-                  <hr
-                    class="dropdown-divider"
-                    style={{ backgroundColor: " rgb(88, 87, 87)" }}
-                  />
-                </li>
-
-               
-                  { userlist && userlist.length > 0 ?(
-                    userlist.map((item, key) =>(
-                     <> <li class="notification-item">
-                  <i class="bi bi-exclamation-circle text-warning"></i>
-                      <div key={key}>
-                        <h4>{`${item.FirstName}  ${item.LastName}`}</h4>
-                        <p>30 min. ago</p>
-                      </div>
-                      </li>
-                       <hr
-                       class="dropdown-divider"
-                       style={{ backgroundColor: " rgb(88, 87, 87)" }}
-                     />
-                     </>
-                    )
-                    )
-
-                 ):null 
-                }
-              
-
-              
-
-                <li style={{ textAlign: "center", marginBottom: "2px" }}>
-                  <a href="#">
-                    {
-                    userCounts>0?(
-                      <span class="badge rounded-pill bg-primary p-2 ms-2 text-center">
-                      View all
-                    </span>
-                    ):""
-                    }
-                  </a>
-                </li>
-              </ul>
+            </li>
+          )}
+        </ul>
+      )}
             </li>
 
             <li class="nav-item dropdown">
