@@ -4,24 +4,32 @@ import ConfirmDeleteModal from "../Pages/JobPage/ConfirmDeleteModal";
 
 const Documents = () => {
   const [file, setFile] = useState(null);
+  const [description, setDescription] = useState("");
   const [documents, setDocuments] = useState([]);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [modalState, setModalState] = useState({ isOpen: false, id: null });
 
-  useEffect(() => {
-    const loadDocuments = async () => {
-      try {
-        const response = await fetch("http://localhost:2000/documents");
-        if (response.ok) {
-          const data = await response.json();
-          setDocuments(data.Documents || []);
-        } else {
-          console.error("Failed to fetch documents");
-        }
-      } catch (err) {
-        console.error("Error fetching documents:", err);
+
+  const loadDocuments = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:2000/documents");
+      if (response.ok) {
+        const data = await response.json();
+        setDocuments(data.Documents || []);
+      } else {
+        setError("Failed to fetch documents.");
       }
-    };
+    } catch (err) {
+      setError("Error fetching documents.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+  
 
     loadDocuments();
   }, []);
@@ -42,7 +50,9 @@ const Documents = () => {
 
     const formData = new FormData();
     formData.append("myDocument", file);
+    formData.append("description", description);
 
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:2000/documents/upload", {
         method: "POST",
@@ -50,22 +60,20 @@ const Documents = () => {
       });
 
       const data = await response.json();
-
-      if (response.ok) {
+      if (response.status===200) {
         setMessage(data.message || "File uploaded successfully.");
         setFile(null);
-        e.target["myFile"].value=[]
-        //Refresh the document list
-        const updatedResponse = await fetch("http://localhost:2000/documents");
-        const updatedData = await updatedResponse.json();
-        setDocuments(updatedData.Documents || []);
-    
+        setDescription("");
+        loadDocuments(); // Refresh document list
+       // Reset the form fields explicitly
+      document.getElementById("uploadForm").reset(); // Reset the form
       } else {
-        setError(data.error || "Failed to upload the file.");
+        setError(data.ERROR || "Failed to upload the file.");
       }
     } catch (err) {
       setError("An unexpected error occurred.");
-      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,58 +90,62 @@ const Documents = () => {
         link.click();
         link.remove();
       } else {
-        console.error("Failed to download file");
+        setError("Failed to download file.");
       }
     } catch (err) {
-      console.error("Error downloading file:", err);
-    }
-  };
-  const handleDelete = async () => {
-    try {
-      const response = await fetch(`http://localhost:2000/documents/delete/${id}`, {
-        method: "DELETE", // Proper HTTP method
-        headers: {
-          "Content-Type": "application/json", // Specify JSON format
-        },
-       
-      });
-  
-      if (response.ok) {
-        const data = await response.json(); // Parse the JSON response
-        setMessage(data.message || "Document deleted successfully");
-        setOpenmodal(false)
-        // Remove the deleted document from state
-       // setDocuments((prevDocuments) => prevDocuments.filter((doc) => doc.id !== id)     );
-        const updatedResponse = await fetch("http://localhost:2000/documents");
-        const updatedData = await updatedResponse.json();
-        setDocuments(updatedData.Documents || []);
-      } else {
-        console.error("Failed to delete the document");
-      }
-    } catch (err) {
-      console.error("Error deleting document:", err.message);
+      setError("Error downloading file.");
     }
   };
 
-  
-  const[isOpen,setOpenmodal]=useState(false)
-  const[id,setSelectedId]=useState(null)
-  const onOpenmodal=(id)=>{
-    setOpenmodal(true)
-    setSelectedId(id)
-  }
-  const closeModal=()=>{
-    setOpenmodal(false)
-  
-  }
+  const handleDelete = async () => {
+    if (!modalState.id) return;
+
+    setLoading(true);
+    try {
+      const response = await fetch(`http://localhost:2000/documents/delete/${modalState.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status===200) {
+        const data = await response.json();
+        setMessage(data.msg || "Document deleted successfully.");
+        closeModal();
+        loadDocuments(); // Refresh document list
+      } else {
+        setError("Failed to delete the document.");
+      }
+    } catch (err) {
+      setError("Error deleting document.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const openModal = (id) => setModalState({ isOpen: true, id });
+  const closeModal = () => setModalState({ isOpen: false, id: null });
+
   return (
     <div className="container-fluid login-bg">
       <div className="container">
+        {loading && <p>Loading...</p>}
         {message && <p style={{ color: "green" }}>{message}</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="doc"><strong>Choose file:</strong></label>
-          <div className="my-3 d-flex col-6">
+        <form onSubmit={handleSubmit} id="uploadForm">
+          <label htmlFor="description"><strong>Description:</strong></label>
+          <div className="my-3">
+            <input
+              className="form-control"
+              type="text"
+              name="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+          <label htmlFor="myFile"><strong>Choose file:</strong></label>
+          <div className="my-3">
             <input
               className="form-control"
               type="file"
@@ -150,11 +162,9 @@ const Documents = () => {
           <thead style={{ backgroundColor: "lightgray" }}>
             <tr>
               <th scope="col">No</th>
-              <th scope="col">Doc ID</th>
+              <th scope="col">Description</th>
               <th scope="col">Filename</th>
-              <th style={{ textAlign: "center" }} colSpan="2">
-                Action
-              </th>
+              <th style={{ textAlign: "center" }} colSpan="2">Action</th>
             </tr>
           </thead>
           <tbody className="table-group-divider">
@@ -162,46 +172,39 @@ const Documents = () => {
               documents.map((item, index) => (
                 <tr key={item.id}>
                   <td>{index + 1}</td>
-                  <td>{item.id}</td>
+                  <td>{item.description}</td>
                   <td>
                     <a
                       style={{ textDecoration: "underline", color: "blue" }}
-                      href={`http://localhost:2000/documents/${item.Documents}`}
+                      href={`http://localhost:2000/documents/${item.document}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {item.Documents}
+                      {item.document}
                     </a>
                   </td>
-                  <td style={{ display: "flex",justifyContent:"center", columnGap: "10px" }}>
+                  <td style={{ display: "flex", justifyContent: "center", columnGap: "10px" }}>
                     <button
-                      onClick={() =>
-                        handleDownload(
-                          `http://localhost:2000/documents/${item.Documents}`
-                        )
-                      }
+                      onClick={() => handleDownload(`http://localhost:2000/documents/${item.document}`)}
                       className="btn btn-success"
                     >
                       Download
                     </button>
-                 
-                    <button onClick={()=>onOpenmodal(item.id)} className="btn btn-danger">Delete</button>
+                    <button onClick={() => openModal(item.id)} className="btn btn-danger">Delete</button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="text-center">
-                  No files available.
-                </td>
+                <td colSpan="4" className="text-center">No files available.</td>
               </tr>
             )}
           </tbody>
         </table>
         <ConfirmDeleteModal
-        onConfirm={handleDelete}
-        isOpen={isOpen}
-        onCancel={closeModal}
+          onConfirm={handleDelete}
+          isOpen={modalState.isOpen}
+          onCancel={closeModal}
         />
       </div>
     </div>

@@ -2,7 +2,7 @@ import "./Css/bootstrap-5/css/bootstrap.min.css";
 import "./Css/font-awesome-4.7/css/font-awesome.min.css";
 import "./Css/mystyle.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { createContext, useEffect, useState, useMemo } from "react";
+import { createContext, useEffect, useState } from "react";
 import AOS from "aos"; // AOS JavaScript
 
 // Import Components
@@ -13,7 +13,6 @@ import CommonLayout from "./components/Pages/SharedLayout/CommonLayout";
 import Fouro4 from "./components/ErorrPage/Fouro4";
 import PostJob from "./components/Pages/JobPage/PostJob";
 import ManageJob from "./components/Pages/JobPage/ManageJob";
-import UpdateJob from "./components/Pages/JobPage/UpdateJob";
 import Email from "./components/Confirmaion/Email";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import Documents from "./components/Documents/Documents";

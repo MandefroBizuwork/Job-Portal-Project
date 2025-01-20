@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser"); // Import cookie-parser
-const multer = require("multer");
+
 require("dotenv").config();
 
 const app = express();
@@ -20,11 +20,12 @@ app.use(cookieParser()); // Use cookie-parser here
 // app.use(bodyParser.urlencoded({ extended: true }));
 const jobsRoutes = require("./Router/JobsRouter");
 const userRoutes = require("./Router/UserRouter");
+const documentRoutes = require("./Router/DocumentRouter");
 //jobs midle ware
 // const dbcon = require("./DBconfig/Dbconfig");
 app.use("/api/user", userRoutes);
 app.use("/api/jobs", jobsRoutes);
-
+app.use("/documents", documentRoutes);
 async function StartServer() {
   try {
     app.listen(2000, (err) => {
@@ -499,7 +500,7 @@ StartServer();
 
 // // Route to get documents
 // app.get("/documents", (req, res) => {
-//   const selectDoc = "SELECT * FROM `documents`";
+//   const selectDoc = "SELECT * FROM documents;";
 //   connection.query(selectDoc, (err, rows) => {
 //       if (err) {
 //           console.error("Database retrieval error:", err);
@@ -524,4 +525,4 @@ StartServer();
 // });
 
 // // Serve static files from the 'public' directory
-// app.use(express.static("public"));
+ app.use(express.static("public"));

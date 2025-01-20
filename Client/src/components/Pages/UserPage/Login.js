@@ -41,7 +41,7 @@ function Login() {
   
         const data = await response.json();
         // console.log(data.user.role==="admin")
-        if (response.ok) {
+        if (response.status===200) {
           setLoading(false)          
           localStorage.setItem("token", data.token);
           setEmail("");
@@ -52,6 +52,11 @@ function Login() {
            else if(data.user.role==="customer"){
             navigate("/customer");
            }
+           else if (!data.user.role) { // Check for undefined or empty role
+            setLoginError("Role not found");
+            console.log("Role not found");
+        }
+         
           // navigate("/dashboard");
          // console.log(data.role)
         } else {

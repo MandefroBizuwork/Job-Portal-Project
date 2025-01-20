@@ -17,7 +17,7 @@ import { Navigate,Outlet } from "react-router-dom";
 // export default ProtectedRoute;
 const ProtectedRoute = ({  isAllowed,  redirectPath,  children}) => {
   if (!isAllowed) {
-    return <Navigate to={redirectPath} replace />;
+    return <Navigate to={redirectPath}  replace= "false"  />;
   }
 
   return children ? children : <Outlet />;

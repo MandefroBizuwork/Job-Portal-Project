@@ -14,7 +14,7 @@ async function Register(req, res) {
   try {
     // Check if user already exists
     const [existingUser] = await dbcon.query(
-      "SELECT Personid FROM users WHERE username = ? OR email = ?",
+      "SELECT userid FROM users WHERE username = ? OR email = ?",
       [username, Email]
     );
 
@@ -65,9 +65,11 @@ async function Login(req, res) {
 
     // Compare passwords
     const isValidPassword = await bcrypt.compare(password, user[0].password);
+    console.log(user[0].password)
     if (!isValidPassword) {
       return res.status(StatusCodes.UNAUTHORIZED).json({ msg: "Invalid username or password" });
     }
+ 
 
     // Generate JWT token
     const secret = process.env.JWT_SECRET;
