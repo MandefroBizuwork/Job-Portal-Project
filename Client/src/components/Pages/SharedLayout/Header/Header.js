@@ -53,6 +53,7 @@ function Header() {
             aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            style={{color:"#bfc2c6"}}
           >
             <span className="bars">
               <i id="togleIcon" className="fa fa-bars" aria-hidden="true"></i>
@@ -101,12 +102,15 @@ function Header() {
              
             
             </ul>
+            <div className="RegisterLogin-container">
             <Link id="navlink" className="nav-link button-2" to="/Register/">
               Register
             </Link>
             <Link  id="navlink" className="nav-link button-2" to="/login/">
               Login
             </Link>
+            </div>
+          
            
             
              

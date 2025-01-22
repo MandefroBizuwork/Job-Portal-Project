@@ -4,7 +4,7 @@ import React, { useState,useEffect } from 'react'
 import AdminFooter from '../AdminFooter'
 import Sidebar from '../Sidebar'
 import { Outlet } from 'react-router-dom' 
-import AdminHead from '../NewAdminHeader/AdminHead'
+import AdminHead from '../AdminHead'
 const AdminLayout = () => {
   const [sideBarOpen, setSideBarOpen] = useState(true); // Default state for sidebar
   //const [isMobileView, setIsMobileView] = useState(false); // Track if screen is below 992px

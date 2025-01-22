@@ -116,10 +116,10 @@ function Sidebar({ sideBarOpen }) {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link collapsed" href="#">
+          <Link class="nav-link collapsed" to="/dashboard/usersPage">
             <i class="bi bi-grid"></i>
             <span>Users</span>
-          </a>
+          </Link>
         </li>
 
         {/* <!-- End Login Page Nav -->

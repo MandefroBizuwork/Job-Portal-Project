@@ -1,19 +1,25 @@
-import React from "react";
-import "./Animat.css";
+import React,{useState} from "react";
 function Footer() {
+  const [quicklinks,setQuicklinks]=useState(false)
+  const displayQuicklink=()=>{
+    setQuicklinks((prv)=>!prv)
+  }
+
+
+console.log(quicklinks)
   return (
-    <div className="container-fluid bg-dark  ">
+    <div className="container-fluid bg-dark   ">
       <footer className="container">
-        <div className="d-flex  footer-links-wrapper">
-          <div className="">
-            <h1 className="btn btn-secondary">
+        <div className="row footer-links-wrapper">
+          <div className="col-xxl-4">
+            <h1 className="btn btn-secondary  " onClick={displayQuicklink}>
               Quick links{" "}
               <i
-                className="fa fa-plus plus_icon plus_icon"
+                className={`fa fa-${quicklinks? "close":"plus"} plus_icon plus_icon`}
                 aria-hidden="true"
               ></i>
             </h1>
-            <ul className="list-unstyled">
+           <ul className={`list-unstyled ${quicklinks? "showQuicklink":""}`}>
               <li>
                 <a href="#" className="nav-link">
                   About Us
@@ -42,7 +48,7 @@ function Footer() {
             </ul>
           </div>
 
-          <div className="">
+          <div className="col-xxl-4">
             <h1 className="btn btn-secondary">
               Contact{" "}
               <i className="fa fa-plus plus_icon" aria-hidden="true"></i>
@@ -66,7 +72,7 @@ function Footer() {
             </ul>
           </div>
 
-          <div className="col-12 col-sm-6 col-md-4 col-lg-2 mb-4">
+          <div className="col-xxl-4">
             <h1 className="btn btn-secondary">
               Follow us{" "}
               <i className="fa fa-plus plus_icon" aria-hidden="true"></i>
@@ -74,24 +80,24 @@ function Footer() {
             <ul className="list-unstyled">
               <li>
                 {" "}
-                <a href="#" aria-label="Facebook">
+                <a href="#" aria-label="Facebook" className="nav-link">
                   <i className="fa fa-facebook"></i>
                 </a>
               </li>
               <li>
                 {" "}
-                <a href="#" aria-label="Twitter">
+                <a href="#" aria-label="Twitter" className="nav-link">
                   <i className="fa fa-twitter"></i>
                 </a>
               </li>
               <li>
                 {" "}
-                <a href="#" aria-label="LinkedIn">
+                <a href="#" aria-label="LinkedIn" className="nav-link">
                   <i className="fa fa-linkedin"></i>
                 </a>
               </li>
               <li>
-                <a href="#" aria-label="Instagram">
+                <a href="#" aria-label="Instagram" className="nav-link">
                   <i className="fa fa-instagram"></i>
                 </a>
               </li>

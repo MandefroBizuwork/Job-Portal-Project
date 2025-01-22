@@ -437,3 +437,70 @@ hr {
   color: #012970;
 }
 
+.pagetitle h1 {
+  font-size: 24px;
+  margin-bottom: 0;
+  font-weight: 600;
+  color: #012970;
+}
+.breadcrumb {
+  font-size: 14px;
+  font-family: "Nunito", sans-serif;
+  color: #899bbd;
+  font-weight: 600;
+}
+.Adminheader-nav .notifications{
+  position: absolute !important;
+  inset: 10px -50px auto auto !important;
+ padding: 10px !important;
+  transform: translate(-16px, 38px) !important;
+  border-radius: 4px;
+  /* padding: 15px;
+  padding-bottom: 10px; */
+  animation-name: dropdown-animate;
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+  opacity: 0; 
+  max-height: 0; 
+  overflow-y: auto;
+  transition: opacity 0.5s ease-in-out, max-height 0.3s ease-in-out;
+  box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
+  border: medium none !important;
+  z-index: 1000 !important;
+  background-color: white;
+  width: 400px 
+}
+.openNotif{
+max-height: 500px !important;
+opacity: 1 !important;
+
+}
+.notification-item>div{
+display:flex;
+justify-Content:space-between;
+align-items: center;
+}
+.notification-item .seeDetailbuton{
+margin-Right:5px;
+color: white;
+border-radius: 50rem !important;
+display: flex;
+flex-direction: column;
+}
+.notification-item>div span:hover{
+background-color: #d5d5d9 !important;
+color: tomato;
+border-radius: 50rem !important;
+}
+.notification-item>div small{
+ color: black;
+  }
+  .viewAllbuton:hover{
+    background-color: #d5d5d9 !important;
+    color: tomato !important
+  }
+/* .Adminheader-nav .notifications li span:hover{
+  background-color: #d5d5d9 !important;
+  color: tomato;
+
+} */

@@ -12,7 +12,7 @@ body {
   font-size: 20px !important;
  
 }
-.enuItems ul li{
+.menuItems ul li{
 
   text-align: center;
   padding: 2px 2px;
@@ -50,20 +50,7 @@ body {
 .hero-button {
   padding-bottom: 15px;
 }
-.button-1 {
-  display: inline-block;
-  text-transform: capitalize;
-  font-weight: 100;
-  background-image: linear-gradient(310deg, #ff7800, #e33f00);
-  padding: 12px 32px;
-  font-size: 15px !important;
-  color: #fff;
-  border-radius: 30px;
-  position: relative;
-  z-index: 1;
-  -webkit-transition: all 0.4s ease-in-out;
-  transition: all 0.4s ease-in-out;
-}
+
 
 .button-1::after {
   content: "";
@@ -93,6 +80,29 @@ body {
   transform: scale(0);
 
   bottom: 0;
+}
+@media (max-width:992px){
+
+  .RegisterLogin-container{
+    display:  flex;
+    
+    flex-direction: column;
+    text-align: center;
+    max-width:200px ;
+    margin: 0 auto 0 auto;
+    
+
+  }
+  #menuItems ul li a{
+
+    text-align: center;
+    padding: 5px 2px;
+    margin:  5px 2px !important;
+   
+  }
+ 
+
+  
 }
 .button-2 {
   display: inline-block;
@@ -258,4 +268,41 @@ a:focus {
   max-width: 600px !important;
   margin: 10px auto;
 }
+.footer-links-wrapper{
+width: 80%;
+margin: 0 auto 0 auto;
+}
 
+.footer-links-wrapper h1 {
+  position: relative;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.footer-links-wrapper .plus_icon{
+position: absolute;
+left:180px;
+
+
+}
+
+@media (min-width:992px){
+  .footer-links-wrapper .plus_icon{
+display: none;
+  }
+
+}
+@media (max-width:991px){
+  .footer-links-wrapper ul{
+    display: none;
+    }
+  .footer-links-wrapper .plus_icon{
+display: block;
+  }
+
+}
+
+.showQuicklink{
+  display: block !important;
+  }

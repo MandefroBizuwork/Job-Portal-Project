@@ -16,13 +16,14 @@ import ManageJob from "./components/Pages/JobPage/ManageJob";
 import Email from "./components/Confirmaion/Email";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import Documents from "./components/Documents/Documents";
-import Profile from "./components/Pages/DashBoard/Profile";
+import Profile from "./components/Pages/DashBoard/maincontainer/Profile";
 import AdminLayout from "./components/Pages/DashBoard/AdminLayout/AdminLayout";
-import Jobs from "./components/Pages/DashBoard/Jobs";
-import DashboardPage from "./components/Pages/DashBoard/NewAdminHeader/DashboardPage";
+import Jobs from "./components/Pages/DashBoard/maincontainer/Jobs";
+import DashboardPage from "./components/Pages/DashBoard/maincontainer/DashboardPage";
 import RedirectingAuthenticated from "./components/Auth/RedirectingAuthenticated";
 import Vacancy from "./components/Pages/JobPage/Vacancy";
 import CustomerPage from "./components/Pages/UserPage/CustomerPage";
+import UserList from "./components/Pages/DashBoard/maincontainer/UserList";
 
 export const AppState = createContext();
 
@@ -137,6 +138,8 @@ function App() {
             <Route index element={<DashboardPage />} />
             <Route path="profile" element={<Profile />} />
             <Route path="jobs" element={<Jobs />} />
+            <Route path="usersPage" element={<UserList />} />
+  
           </Route>
           <Route
             path="/customer"
